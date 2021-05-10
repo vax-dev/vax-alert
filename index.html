@@ -32,11 +32,11 @@
       opacity: 0.3;
       }
       .main-block {
-      max-width: 540px; 
+      max-width: 560px; 
       min-height: 560px; 
-      padding: 10px 0;
+      padding: 25px;
       margin: auto;
-      border-radius: 5px; 
+      border-radius: 10px; 
       border: solid 1px #ccc;
       box-shadow: 1px 2px 5px rgba(0,0,0,.31); 
       background: #ebebeb; 
@@ -133,6 +133,7 @@
   <body>
     <div class="main-block">
       <h1>Fill the Details to Start Tracking</h1>
+      <h3 style='text-align: center;'>Made with &#x2665; by Pankaj</h3>
       
         <hr>
         <div class="account-type">
@@ -155,14 +156,8 @@
         </div>
 
         <div class="btn-block">
-            <h3 id='status' style="visibility: hidden;">Search Started........<br> Sit Back and Relax While We find a Slot for you</h3>
-            <table>
-                <tr>
-                    <td>Center</td>
-                    <td>Address</td>
-                    <td>Slots</td>
-                </tr>
-            </table>
+            <h3 id='status' style="visibility: hidden;">Search Started........<br> Sit Back and Relax While We find a Slot for you<br>DO NOT CLOSE THIS TAB, IT WILL NOT NOTIFY YOU IF YOU CLOSE IT..</h3>
+            
           </div>
           <div id='data_table'>
 
@@ -201,7 +196,7 @@ function slot_finder(){
       age_limit = 45
   }
   console.log(pin)
-  var audio = new Audio('https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3')
+  var audio = new Audio('./sound/msg_aaya_hai.mp3')
   console.log('Searching for Slots..')
   fetch(`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/findByPin?pincode=${pin}&date=${date}`)
   .then(response => response.json())
