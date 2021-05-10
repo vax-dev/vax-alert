@@ -135,12 +135,12 @@
       <h1>Fill the Details to Start Tracking</h1>
       
         <hr>
-        <!-- <div class="account-type">
+        <div class="account-type">
           <input type="radio" value="none" id="radioOne" name="account" checked/>
-          <label for="radioOne" class="radio">Personal</label>
+          <label for="radioOne" class="radio">18+</label>
           <input type="radio" value="none" id="radioTwo" name="account" />
-          <label for="radioTwo" class="radio">Company</label>
-        </div> -->
+          <label for="radioTwo" class="radio">45+</label>
+        </div>
         <hr>
         <label id="icon" for="name"><i class="fa fa-map-marker"></i></label>
         <input type="text" name="pin" id="pin" placeholder="PIN CODE" required/>
@@ -153,6 +153,20 @@
         <div class="btn-block">
           <button type="submit" onclick="track()" href="/">Submit</button>
         </div>
+
+        <div class="btn-block">
+            <h3 id='status' style="visibility: hidden;">Search Started........<br> Sit Back and Relax While We find a Slot for you</h3>
+            <table>
+                <tr>
+                    <td>Center</td>
+                    <td>Address</td>
+                    <td>Slots</td>
+                </tr>
+            </table>
+          </div>
+          <div id='data_table'>
+
+          </div>
       
     </div>
   </body>
@@ -160,14 +174,18 @@
   <script>
       var PIN_CODE = 0
       var DATE = ''
+      var result = []
+      var slot = []
+      var address = []
       function track(){
           PIN_CODE = parseInt(document.getElementById('pin').value)
           DATE = document.getElementById('date').value
           console.log('I am started tracking..')
+          document.getElementById('status').style.visibility = 'visible'
           console.log(pin)
           console.log(typeof(pin))
           slot_finder()
-          window.setInterval(slot_finder, 60000)
+          test = window.setInterval(slot_finder, 60000)
       }
 
       
@@ -176,6 +194,12 @@ function slot_finder(){
   //var data
   var pin = PIN_CODE
   var date = DATE
+  var age_limit = 0
+  if(document.getElementById('radioOne').checked){
+      age_limit = 18
+  }else{
+      age_limit = 45
+  }
   console.log(pin)
   var audio = new Audio('https://file-examples-com.github.io/uploads/2017/11/file_example_MP3_700KB.mp3')
   console.log('Searching for Slots..')
@@ -185,17 +209,54 @@ function slot_finder(){
    {
    console.log((data.sessions).length)
    for(i=0; i<(data.sessions).length; i++){
-     if(data.sessions[i].min_age_limit == 18){
+     if(data.sessions[i].min_age_limit == age_limit){
      console.log('Slots Found..')
+     
+     result.push(data.sessions[i].name)
+    address.push(data.sessions[i].address)
+    slot.push(data.sessions[i].available_capacity)
+    clearInterval(test)
      console.log(data.sessions[i].name)
      console.log(data.sessions[i].address)
      console.log(data.sessions[i].available_capacity)
-     audio.play();
+     
      }
    }
    console.log('No Slot Found.. Searching Again....')
+   console.log(result)
+   if(result.length > 0){
+    alert('SLot Found...')
+    audio.play();
+   }
+   createTable(result, address, slot)
    }
   );
+}
+
+function createTable(){
+    var table = document.createElement('table');
+    
+    for (var i = 0; i < result.length; i++){
+        var tr = document.createElement('tr');   
+
+        var td1 = document.createElement('td');
+        var td2 = document.createElement('td');
+        var td3 = document.createElement('td');
+
+        var text1 = document.createTextNode(result[i]);
+        var text2 = document.createTextNode(address[i]);
+        var text3 = document.createTextNode(slot[i]);
+
+        td1.appendChild(text1);
+        td2.appendChild(text2);
+        td3.appendChild(text3)
+        tr.appendChild(td1);
+        tr.appendChild(td2);
+        tr.appendChild(td3);
+
+        table.appendChild(tr);
+    }
+    document.getElementById('data_table').appendChild(table);
 }
 
 
