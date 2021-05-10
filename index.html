@@ -133,6 +133,7 @@
   <body>
     <div class="main-block">
       <h1>Fill the Details to Start Tracking</h1>
+      <p>How it Works? Just select the date and pincode, it will automatically checks with the COWIN servers every minute and if slot found, it will play a sound. You have to keep this tab open to get notified!</p>
       <h3 style='text-align: center;'>Made with &#x2665; by Pankaj</h3>
       
         <hr>
@@ -157,7 +158,7 @@
 
         <div class="btn-block">
             <h3 id='status' style="visibility: hidden;">Search Started........<br> Sit Back and Relax While We find a Slot for you<br>DO NOT CLOSE THIS TAB, IT WILL NOT NOTIFY YOU IF YOU CLOSE IT..</h3>
-            
+            <h3 id='counter' style="visibility: hidden;">Search Count : <span id='count'></span></h3>
           </div>
           <div id='data_table'>
 
@@ -172,11 +173,13 @@
       var result = []
       var slot = []
       var address = []
+      var count = 0
       function track(){
           PIN_CODE = parseInt(document.getElementById('pin').value)
           DATE = document.getElementById('date').value
           console.log('I am started tracking..')
           document.getElementById('status').style.visibility = 'visible'
+          document.getElementById('counter').style.visibility = 'visible'
           console.log(pin)
           console.log(typeof(pin))
           slot_finder()
@@ -187,6 +190,8 @@
 
 function slot_finder(){
   //var data
+  count +=1
+  document.getElementById('count').innerHTML = count
   var pin = PIN_CODE
   var date = DATE
   var age_limit = 0
